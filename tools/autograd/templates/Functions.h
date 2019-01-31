@@ -18,6 +18,7 @@ using at::Tensor;
 using at::IntList;
 using at::Type;
 using at::TensorGeometry;
+using at::TensorGeometryOrSparse;
 using at::ScalarType;
 using c10::optional;
 

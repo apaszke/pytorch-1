@@ -465,7 +465,7 @@ def emit_body(declaration):
                 return None
 
             # We really only care about trimming down the amount of tensors we save
-            if arg['type'] != 'Tensor':
+            if arg['type'] not in {'Tensor', 'IntList', 'TensorGeometry', 'TensorGeometryOrSparse', 'TypeAndSize'}
                 return None
 
             # We want to emit simple guards, so we only allow that if checking one

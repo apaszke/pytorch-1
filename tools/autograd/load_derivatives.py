@@ -253,6 +253,11 @@ def saved_variables(formula, args):
             'suffix': '_sizes',
             'type': 'IntList',
         }),
+        # replace self.strides() with self_strides
+        (r'{}.strides\(\)', {
+            'suffix': '_strides',
+            'type': 'IntList',
+        }),
         # replace zeros_like(self) with self_info
         (r'zeros_like\({}\)', {
             'suffix': '_info',
@@ -279,6 +284,11 @@ def saved_variables(formula, args):
         (r'TensorGeometry\({}\)', {
             'suffix': '_geometry',
             'type': 'TensorGeometry',
+        }),
+        # replace TensorGeometryOrSparse(self) with self_geometry_or_sparse
+        (r'TensorGeometryOrSparse\({}\)', {
+            'suffix': '_geometry_or_sparse',
+            'type': 'TensorGeometryOrSparse',
         }),
     ]
 

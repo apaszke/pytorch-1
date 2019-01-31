@@ -6,7 +6,7 @@
 namespace at {
 
 struct CAFFE2_API TensorGeometry {
-  TensorGeometry() : storage_offset_(0) {}
+  TensorGeometry() : storage_offset_(0), numel_(0) {}
 
   explicit TensorGeometry(IntList sizes)
     : sizes_(sizes.vec())
@@ -53,10 +53,36 @@ struct CAFFE2_API TensorGeometry {
     return r;
   }
 
+protected:
+  void init(const at::Tensor& t) {
+    sizes_ = t.sizes().vec();
+    strides_ = t.strides().vec();
+    storage_offset_ = t.storage_offset();
+    numel_ = t.numel();
+  }
+
+private:
   std::vector<int64_t> sizes_;
   std::vector<int64_t> strides_;
   int64_t storage_offset_;
   int64_t numel_;
+};
+
+struct CAFFE2_API TensorGeometryOrSparse : public TensorGeometry {
+  TensorGeometryOrSparse() : TensorGeometry(), is_sparse_(false) {}
+
+  explicit TensorGeometryOrSparse(const at::Tensor& t)
+    : is_sparse_(t.is_sparse()) {
+    if (!is_sparse_) {
+      init(t);
+    }
+  }
+
+  bool is_sparse() const {
+    return is_sparse_;
+  }
+
+  bool is_sparse_;
 };
 
 } // namespace at

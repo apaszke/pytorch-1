@@ -114,7 +114,7 @@
 
 - name: addmm(Tensor self, Tensor mat1, Tensor mat2, *, Scalar beta, Scalar alpha)
   self: maybe_multiply(grad, beta)
-  mat1: mm_mat1_backward(grad, mat2, mat1, alpha)
+  mat1: mm_mat1_backward(grad, mat2, TensorGeometryOrSparse(mat1), alpha)
   mat2: mm_mat2_backward(grad, mat1, mat2.sizes(), mat2.strides(), alpha)
 
 - name: _sparse_addmm(Tensor self, Tensor sparse, Tensor dense, *, Scalar beta, Scalar alpha)
@@ -534,7 +534,7 @@
   other: grad.clone().masked_fill_(self < other, 0)
 
 - name: mm(Tensor self, Tensor mat2)
-  self: mm_mat1_backward(grad, mat2, self, 1)
+  self: mm_mat1_backward(grad, mat2, TensorGeometryOrSparse(self), 1)
   mat2: mm_mat2_backward(grad, self, mat2.sizes(), mat2.strides(), 1)
 
 - name: mode(Tensor self, int64_t dim, bool keepdim)

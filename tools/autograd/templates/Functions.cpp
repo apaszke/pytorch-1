@@ -504,7 +504,7 @@ Tensor clamp_backward(const Tensor & grad, const Tensor &self, const optional<Sc
   }
 }
 
-Tensor mm_mat1_backward(const Tensor & grad, const Tensor & mat2, const Tensor & mat1, const Scalar & alpha) {
+Tensor mm_mat1_backward(const Tensor & grad, const Tensor & mat2, const TensorGeometryOrSparse& mat1, const Scalar & alpha) {
   // if input was column-major, return grad as column-order for efficiency
   if (mat1.is_sparse()) {
     throw std::runtime_error("calculating the gradient of a sparse Tensor argument to mm is not supported.");
